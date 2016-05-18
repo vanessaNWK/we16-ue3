@@ -38,9 +38,11 @@ public class DataGenerator {
         DBAccess.getManager().getTransaction().begin();
         for(JSONDataLoader.Book book : JSONDataLoader.getBooks()) {
             Product p = new Product();
+            p.setId(book.getId());
             p.setName(book.getTitle());
             p.setImage(book.getImg());
             p.setImageAlt(book.getImageAlt());
+            p.setDbpedia(book.getDbpedia());
             try {
                 p.setAuctionEnd(df.parse(book.getAuctionEnd()));
             } catch (ParseException e) {
@@ -53,11 +55,13 @@ public class DataGenerator {
         }
         for(JSONDataLoader.Movie movie : JSONDataLoader.getFilms()) {
             Product p = new Product();
+            p.setId(movie.getId());
             p.setName(movie.getTitle());
             p.setImage(movie.getImg());
             p.setProducer(movie.getDirector());
             p.setYear(new Integer(movie.getYear()));
             p.setImageAlt(movie.getImageAlt());
+            p.setDbpedia(movie.getDbpedia());
             try {
                 p.setAuctionEnd(df.parse(movie.getAuctionEnd()));
             } catch (ParseException e) {
@@ -68,11 +72,13 @@ public class DataGenerator {
         }
         for(JSONDataLoader.Music music : JSONDataLoader.getMusic()) {
             Product p = new Product();
+            p.setId(music.getId());
             p.setName(music.getAlbum_name());
             p.setImage(music.getImg());
             p.setProducer(music.getArtist());
             p.setYear(new Integer(music.getYear()));
             p.setType(ProductType.ALBUM);
+            p.setDbpedia(music.getDbpedia());
             p.setImageAlt(music.getImageAlt());
             try {
                 p.setAuctionEnd(df.parse(music.getAuctionEnd()));

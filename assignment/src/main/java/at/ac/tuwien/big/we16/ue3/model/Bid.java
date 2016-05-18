@@ -13,12 +13,10 @@ public class Bid {
     @Column(name="amount")
     private int amount;
 
-   // @Column(name = "user")
     @ManyToOne(fetch = FetchType.LAZY,
                cascade = CascadeType.ALL)
     private User user;
 
-   // @Column(name = "product")
     @ManyToOne(fetch = FetchType.LAZY,
                cascade = CascadeType.ALL)
     private Product product;

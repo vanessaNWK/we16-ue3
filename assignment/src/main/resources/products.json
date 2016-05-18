@@ -1,6 +1,7 @@
 {
     "music": [
         {
+            "id": "ab85b749-fb7a-4e03-9483-11e42ef091cf",
             "album_name": "Californication",
             "artist": "Red Hot Chili Peppers",
             "year": "1999",
@@ -10,6 +11,7 @@
             "imageAlt": "Red Hot Chili Peppers written in a circle"
         },
         {
+            "id": "a066195f-590e-4d4d-bb70-961996b41314",
             "album_name": "Forty Licks",
             "artist": "The Rolling Stones",
             "year": "2002",
@@ -19,6 +21,7 @@
             "imageAlt": "Typical Rolling Stones tongue"
         },
         {
+            "id": "ef4c3945-7e34-4676-bb61-94ee7866fd84",
             "album_name": "Reload",
             "artist": "Metallica",
             "year": "1997",
@@ -30,6 +33,7 @@
     ],
     "books": [
         {
+            "id": "b4597af2-6fdd-4dac-a94d-a6b2a634512a",
             "title": "Pride and Prejudice",
             "author": "Jane Austen",
             "year": "1813",
@@ -39,6 +43,7 @@
             "imageAlt": "Pride and Prejudice by Jane Austen written in normal letters"
         },
         {
+            "id": "8505b7f2-7271-4d97-8343-971b6b912016",
             "title": "1984",
             "author": "George Orwell",
             "year": "1949",
@@ -48,6 +53,7 @@
             "imageAlt": "1984 by George Orwell written in normal letters"
         },
         {
+            "id": "2797123c-4d71-4dc2-9658-9c24a294f424",
             "title": "The Great Gatsby",
             "author": "F. Scott Fitzgerald",
             "year": "1925",
@@ -59,6 +65,7 @@
     ],
     "movies": [
         {
+            "id": "714fbe93-b14d-4fbd-83d7-97a78b2549b8",
             "title": "The Godfather",
             "director": "Francis Ford Coppola",
             "year": "1972",
@@ -68,6 +75,7 @@
             "imageAlt": "The Godfather by Francis Coppola written in normal letters"
         },
         {
+            "id": "fdf093a5-6ee2-48a0-b10f-21ec2735abe0",
             "title": "The Martian",
             "director": "Ridley Scott",
             "year": "2015",
@@ -77,6 +85,7 @@
             "imageAlt": "The Martian by Ridley Scott written in normal letters"
         },
         {
+            "id": "a5d68110-562b-437f-992a-8b6735f9d251",
             "title": "The Wizard of Oz",
             "director": "Victor Fleming",
             "year": "1939",

@@ -67,7 +67,8 @@ public class JSONDataLoader {
     }
 
     public class Music {
-
+        private String id;
+        private String dbpedia;
         private String album_name;
         private String artist;
         private String year;
@@ -114,10 +115,39 @@ public class JSONDataLoader {
         public String getImageAlt() {
             return imageAlt;
         }
+
+        public String getId() {
+            return id;
+        }
+
+        public Music setId(final String id) {
+            this.id = id;
+            return this;
+        }
+
+        public String getDbpedia() {
+            return dbpedia;
+        }
+
+        public Music setDbpedia(final String dbpedia) {
+            this.dbpedia = dbpedia;
+            return this;
+        }
+
+        public Music setAuctionEnd(final String auctionEnd) {
+            this.auctionEnd = auctionEnd;
+            return this;
+        }
+
+        public Music setImageAlt(final String imageAlt) {
+            this.imageAlt = imageAlt;
+            return this;
+        }
     }
 
     public class Book {
-
+        private String id;
+        private String dbpedia;
         private String title;
         private String author;
         private String year;
@@ -175,10 +205,29 @@ public class JSONDataLoader {
         public String getImageAlt() {
             return imageAlt;
         }
+
+        public String getId() {
+            return id;
+        }
+
+        public Book setId(final String id) {
+            this.id = id;
+            return this;
+        }
+
+        public String getDbpedia() {
+            return dbpedia;
+        }
+
+        public Book setDbpedia(final String dbpedia) {
+            this.dbpedia = dbpedia;
+            return this;
+        }
     }
 
     public class Movie {
-
+        private String id;
+        private String dbpedia;
         private String title;
         private String director;
         private String year;
@@ -235,6 +284,24 @@ public class JSONDataLoader {
 
         public String getImageAlt() {
             return imageAlt;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public Movie setId(final String id) {
+            this.id = id;
+            return this;
+        }
+
+        public String getDbpedia() {
+            return dbpedia;
+        }
+
+        public Movie setDbpedia(final String dbpedia) {
+            this.dbpedia = dbpedia;
+            return this;
         }
     }
 

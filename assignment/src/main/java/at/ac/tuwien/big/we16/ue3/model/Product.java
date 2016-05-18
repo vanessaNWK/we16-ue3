@@ -10,20 +10,19 @@ import java.util.stream.Collectors;
 @Table
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String id;
     @Column(name="name")
     private String name;
     @Column(name="image")
     private String image;
     @Column(name="imageAlt")
     private String imageAlt;
-
+    @Column(name="dbpedia")
+    private String dbpedia;
     @Column(name="date")
     @Temporal(TemporalType.DATE)
     private Date auctionEnd;
 
-    //@Column(name="type")
     @Enumerated(EnumType.STRING)
     private ProductType type;
 
@@ -34,11 +33,9 @@ public class Product {
     @Column(name="expired")
     private boolean expired;
 
-    //@Column(name = "relatedProducts")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
     private List<RelatedProduct> relatedProducts = new ArrayList<>();
 
-    //@Column(name = "bids")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
     private List<Bid> bids = new ArrayList<>();
 
@@ -91,11 +88,11 @@ public class Product {
         return false;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -159,20 +156,22 @@ public class Product {
     public Product() {
     }
 
-    public Product(final String name, final String image, final String imageAlt, final Date auctionEnd, final ProductType type, final int year, final String producer, final boolean expired) {
+    public Product(final String name, final String image, final String imageAlt, final String dbpedia,final Date auctionEnd, final ProductType type, final int year, final String producer, final boolean expired) {
         this.name = name;
         this.image = image;
         this.imageAlt = imageAlt;
+        this.dbpedia = dbpedia;
         this.auctionEnd = auctionEnd;
         this.type = type;
         this.year = year;
         this.producer = producer;
         this.expired = expired;
     }
-    public Product(final String name, final String image, final String imageAlt, final Date auctionEnd, final ProductType type, final int year, final String producer, final boolean expired, List<RelatedProduct> related, List<Bid> bids) {
+    public Product(final String name, final String image, final String imageAlt, final String dbpedia,final Date auctionEnd, final ProductType type, final int year, final String producer, final boolean expired, List<RelatedProduct> related, List<Bid> bids) {
         this.name = name;
         this.image = image;
         this.imageAlt = imageAlt;
+        this.dbpedia = dbpedia;
         this.auctionEnd = auctionEnd;
         this.type = type;
         this.year = year;
@@ -197,4 +196,13 @@ public class Product {
     public boolean isExpired() {
         return expired;
     }
+
+    public String getDbpedia() {
+        return dbpedia;
+    }
+
+    public void setDbpedia(final String dbpedia) {
+        this.dbpedia = dbpedia;
+    }
+
 }

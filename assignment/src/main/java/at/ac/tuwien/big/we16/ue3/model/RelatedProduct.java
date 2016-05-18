@@ -12,7 +12,6 @@ public class RelatedProduct {
     @Column(name="name")
     private String name;
 
-  //  @Column(name = "product")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Product product;
 

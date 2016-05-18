@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 
 public class UserController {
     private final UserService userService;
@@ -94,7 +96,9 @@ public class UserController {
     }
 
         if(error == null) {
-            User user = new User();
+            User user = new User(request.getParameter("salutation"), firstname, lastname, email, password, Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()), 150000, 0,0,0);
+            //1500.00 wegen integer
+            //user.increaseBalance(150000);
             this.userService.createUser(user);
             this.authService.login(request.getSession(), user);
             response.sendRedirect("/");

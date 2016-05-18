@@ -2,28 +2,50 @@ package at.ac.tuwien.big.we16.ue3.model;
 
 import at.ac.tuwien.big.we16.ue3.exception.InvalidBidException;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import javax.persistence.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Entity
+@Table
 public class Product {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    @Column(name="name")
     private String name;
+    @Column(name="image")
     private String image;
+    @Column(name="imageAlt")
     private String imageAlt;
+
+    @Column(name="date")
+    @Temporal(TemporalType.DATE)
     private Date auctionEnd;
+
+    //@Column(name="type")
+    @Enumerated(EnumType.STRING)
     private ProductType type;
+
+    @Column(name="year")
     private int year;
+    @Column(name="producer")
     private String producer;
+    @Column(name="expired")
     private boolean expired;
-    private List<RelatedProduct> relatedProducts;
-    private List<Bid> bids;
+
+    //@Column(name = "relatedProducts")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
+    private List<RelatedProduct> relatedProducts = new ArrayList<>();
+
+    //@Column(name = "bids")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
+    private List<Bid> bids = new ArrayList<>();
 
     public Bid getHighestBid() {
         Bid highest = null;
         int highestAmount = 0;
-        for (Bid bid : this.bids) {
+       for (Bid bid : this.bids) {
             if (bid.getAmount() > highestAmount) {
                 highest = bid;
             }
@@ -69,11 +91,11 @@ public class Product {
         return false;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -105,4 +127,74 @@ public class Product {
         return relatedProducts;
     }
 
+    public Product setProducer(final String producer) {
+        this.producer = producer;
+        return this;
+    }
+
+    public Product setName(final String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Product setImage(final String image) {
+        this.image = image;
+        return this;
+    }
+
+    public Product setImageAlt(final String imageAlt) {
+        this.imageAlt = imageAlt;
+        return this;
+    }
+
+    public Product setAuctionEnd(final Date auctionEnd) {
+        this.auctionEnd = auctionEnd;
+        return this;
+    }
+
+    public Product setYear(final int year) {
+        this.year = year;
+        return this;
+    }
+    public Product() {
+    }
+
+    public Product(final String name, final String image, final String imageAlt, final Date auctionEnd, final ProductType type, final int year, final String producer, final boolean expired) {
+        this.name = name;
+        this.image = image;
+        this.imageAlt = imageAlt;
+        this.auctionEnd = auctionEnd;
+        this.type = type;
+        this.year = year;
+        this.producer = producer;
+        this.expired = expired;
+    }
+    public Product(final String name, final String image, final String imageAlt, final Date auctionEnd, final ProductType type, final int year, final String producer, final boolean expired, List<RelatedProduct> related, List<Bid> bids) {
+        this.name = name;
+        this.image = image;
+        this.imageAlt = imageAlt;
+        this.auctionEnd = auctionEnd;
+        this.type = type;
+        this.year = year;
+        this.producer = producer;
+        this.expired = expired;
+        this.relatedProducts = related;
+        this.bids = bids;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getProducer() {
+        return producer;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
 }

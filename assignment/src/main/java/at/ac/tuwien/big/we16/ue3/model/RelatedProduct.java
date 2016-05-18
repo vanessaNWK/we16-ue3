@@ -1,16 +1,26 @@
 package at.ac.tuwien.big.we16.ue3.model;
 
-public class RelatedProduct {
+import javax.persistence.*;
 
-    private String id;
+@Entity
+@Table
+public class RelatedProduct {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name="name")
     private String name;
+
+  //  @Column(name = "product")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Product product;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

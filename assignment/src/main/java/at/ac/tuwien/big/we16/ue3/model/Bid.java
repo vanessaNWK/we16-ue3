@@ -1,22 +1,40 @@
 package at.ac.tuwien.big.we16.ue3.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class Bid {
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name="amount")
     private int amount;
+
+   // @Column(name = "user")
+    @ManyToOne(fetch = FetchType.LAZY,
+               cascade = CascadeType.ALL)
     private User user;
+
+   // @Column(name = "product")
+    @ManyToOne(fetch = FetchType.LAZY,
+               cascade = CascadeType.ALL)
     private Product product;
+
+    public Bid() {}
 
     public Bid(int centAmount, User user) {
         amount = centAmount;
         this.user = user;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

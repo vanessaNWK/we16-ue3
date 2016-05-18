@@ -1,19 +1,35 @@
 package at.ac.tuwien.big.we16.ue3.model;
 
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
+@Entity
+@Table(name="User")
 public class User {
-
-    private String id;
+    @Column(name="salutation")
     private String salutation;
+    @Column(name="firstname")
     private String firstname;
+    @Column(name="lastname")
     private String lastname;
+    @Id
+    @Column(name="email")
     private String email;
+    @Column(name="password")
     private String password;
+
+    @Column(name="date")
+    @Temporal(TemporalType.DATE)
     private Date date;
+
+    @Column(name="balance")
     private int balance;
+    @Column(name="runningAuctionsCount")
     private int runningAuctionsCount;
+    @Column(name="wonAuctionsCount")
     private int wonAuctionsCount;
+    @Column(name="lostAuctionsCount")
     private int lostAuctionsCount;
 
     public String getFullName() {
@@ -97,4 +113,18 @@ public class User {
         return lastname;
     }
 
+    public User(final String salutation, final String firstname, final String lastname, final String email, final String password, final Date date, final int balance, final int runningAuctionsCount, final int wonAuctionsCount, final int lostAuctionsCount) {
+        this.salutation = salutation;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.date = date;
+        this.balance = balance;
+        this.runningAuctionsCount = runningAuctionsCount;
+        this.wonAuctionsCount = wonAuctionsCount;
+        this.lostAuctionsCount = lostAuctionsCount;
+    }
+
+    public User() {}
 }

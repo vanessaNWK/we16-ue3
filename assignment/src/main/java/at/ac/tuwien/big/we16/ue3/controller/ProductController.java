@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 
-public class ProductController {
+public class  ProductController {
 
     private final ProductService productService;
     private final AuthService authService;

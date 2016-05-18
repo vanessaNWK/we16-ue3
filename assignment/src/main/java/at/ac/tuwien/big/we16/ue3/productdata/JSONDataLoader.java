@@ -72,6 +72,8 @@ public class JSONDataLoader {
         private String artist;
         private String year;
         private String img;
+        private String auctionEnd;
+        private String imageAlt;
 
         public String getAlbum_name() {
             return album_name;
@@ -104,6 +106,14 @@ public class JSONDataLoader {
         public void setImg(String img) {
             this.img = img;
         }
+
+        public String getAuctionEnd() {
+            return auctionEnd;
+        }
+
+        public String getImageAlt() {
+            return imageAlt;
+        }
     }
 
     public class Book {
@@ -112,6 +122,9 @@ public class JSONDataLoader {
         private String author;
         private String year;
         private String img;
+        private String auctionEnd;
+        private String imageAlt;
+
 
         public String getTitle() {
             return title;
@@ -144,6 +157,24 @@ public class JSONDataLoader {
         public void setImg(String img) {
             this.img = img;
         }
+
+        public Book setAuctionEnd(final String auctionEnd) {
+            this.auctionEnd = auctionEnd;
+            return this;
+        }
+
+        public Book setImageAlt(final String imageAlt) {
+            this.imageAlt = imageAlt;
+            return this;
+        }
+
+        public String getAuctionEnd() {
+            return auctionEnd;
+        }
+
+        public String getImageAlt() {
+            return imageAlt;
+        }
     }
 
     public class Movie {
@@ -152,6 +183,9 @@ public class JSONDataLoader {
         private String director;
         private String year;
         private String img;
+        private String auctionEnd;
+        private String imageAlt;
+
 
         public String getTitle() {
             return title;
@@ -183,6 +217,24 @@ public class JSONDataLoader {
 
         public void setImg(String img) {
             this.img = img;
+        }
+
+        public Movie setAuctionEnd(final String auctionEnd) {
+            this.auctionEnd = auctionEnd;
+            return this;
+        }
+
+        public Movie setImageAlt(final String imageAlt) {
+            this.imageAlt = imageAlt;
+            return this;
+        }
+
+        public String getAuctionEnd() {
+            return auctionEnd;
+        }
+
+        public String getImageAlt() {
+            return imageAlt;
         }
     }
 

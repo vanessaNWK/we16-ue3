@@ -71,9 +71,9 @@ public class DataGenerator {
             p.setProducer(book.getAuthor());
             p.setYear(new Integer(book.getYear()));
             p.setType(ProductType.BOOK);
-            buecher.add(p);
             DBAccess.getManager().persist(p);
-        }
+            buecher.add(p);
+            }
         for(JSONDataLoader.Movie movie : JSONDataLoader.getFilms()) {
             Product p = new Product();
             p.setId(movie.getId());
@@ -89,8 +89,8 @@ public class DataGenerator {
                 e.printStackTrace();
             }
             p.setType(ProductType.FILM);
-            movies.add(p);
             DBAccess.getManager().persist(p);
+            movies.add(p);
         }
         for(JSONDataLoader.Music music : JSONDataLoader.getMusic()) {
             Product p = new Product();
@@ -108,8 +108,8 @@ public class DataGenerator {
             } catch (ParseException e) {
                 System.err.println("parse error");
             }
-            musics.add(p);
             DBAccess.getManager().persist(p);
+            musics.add(p);
         }
         DBAccess.getManager().getTransaction().commit();
     }

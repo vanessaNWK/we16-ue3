@@ -45,7 +45,7 @@ public class DataGenerator {
         if(DBAccess.getManager().find(User.class, "vanessa.kos@gmx.at") == null) {
             DBAccess.getManager().getTransaction().begin();
             User computer = new User("*", "Computer", "User", "computer.user@gmx.at", "Test", new Date(), 0, 0, 0, 0);
-            User me = new User("Frau", "Vanessa", "Kos", "vanessa.kos@gmx.at", "melody", new Date(), 150000, 0, 0, 0);
+            User me = new User("Herr", "Max", "Mustermann", "vanessa.kos@gmx.at", "melody", new Date(), 150000, 0, 0, 0);
             DBAccess.getManager().persist(computer);
             DBAccess.getManager().persist(me);
             DBAccess.getManager().getTransaction().commit();

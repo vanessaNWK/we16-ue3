@@ -12,9 +12,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -79,6 +79,7 @@ public class ProductService {
 
             URL url = new URL(surl);
             httpCon = (HttpURLConnection) url.openConnection();
+            httpCon.setDoOutput(true);
             httpCon.setRequestMethod("POST");
             httpCon.setRequestProperty("Content-Type", "application/json");
 
@@ -114,15 +115,18 @@ public class ProductService {
 
 
     }
-    String getJsonFromObjectsForSell(Product product, User user)
-    {
-        return "{\"name\": \""+user.getFullName()+"\", \"product\": \""+product.getName()+"\", \"price\": \""+product.getHighestBid()+"\", \"date\": \""+product.getAuctionEnd()+"\" }";
+    String getJsonFromObjectsForSell(Product product, User user) {
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        DecimalFormat df2=new DecimalFormat("0.00");
+        return  "{\"name\": \"" + user.getFullName() + "\", \"product\": \"" + product.getName() + "\", \"price\": \"" + df2.format(product.getHighestBid().getAmount() / 100) + "\", \"date\": \"" + df1.format(product.getAuctionEnd()) + "\" }";
     }
     ProductSoldRestResponse getUUIDFromJsonForSell(String json)
     {
-        if("".equals(json)) {
+        if(!"".equals(json)) {
             Gson gson = new GsonBuilder().create();
-            return gson.fromJson(json, ProductSoldRestResponse.class);
+            ProductSoldRestResponse response=gson.fromJson(json, ProductSoldRestResponse.class);
+            System.out.println("Received UUID: "+response.getId());
+            return response;
         }
         else return null;
     }

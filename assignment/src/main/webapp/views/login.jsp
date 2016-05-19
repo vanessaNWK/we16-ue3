@@ -30,6 +30,11 @@
                 Anmelden
             </button>
         </div>
+            <c:if test="${error}">
+                <div class="form-row form-row-center">
+                 <span style="color:red;">Username oder Passwort ist falsch</span>
+                </div>
+            </c:if>
     </form>
 </main>
 <jsp:include page='partials/footer.jsp'/>

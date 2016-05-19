@@ -30,7 +30,7 @@ public class Product {
     @Column(name="imageAlt")
     private String imageAlt;
 
-    @Column(name="dbpedia")
+    @Transient
     private String dbpedia;
 
     @Column(name="date")

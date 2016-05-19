@@ -4,6 +4,7 @@ import at.ac.tuwien.big.we16.ue3.exception.UserNotFoundException;
 import at.ac.tuwien.big.we16.ue3.model.User;
 import org.apache.log4j.*;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 public class UserService {
 
@@ -34,11 +35,11 @@ public class UserService {
         //TODO: read from db
         TypedQuery<User> query = DBAccess.getManager().createQuery("Select u FROM User u WHERE u.email = :email ", User.class);
         query.setParameter("email", email);
-        User user = query.getSingleResult();
-        if(user == null) {
+        List<User> user = query.getResultList();
+        if(user.size() == 0) {
             throw new UserNotFoundException();
         }
-        return user;
+        return user.get(0);
     }
 
     /**

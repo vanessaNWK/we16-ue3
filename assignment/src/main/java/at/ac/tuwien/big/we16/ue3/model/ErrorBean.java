@@ -64,4 +64,5 @@ public class ErrorBean {
     public void setDateError(final String dateError) {
         this.dateError = dateError;
     }
+
 }

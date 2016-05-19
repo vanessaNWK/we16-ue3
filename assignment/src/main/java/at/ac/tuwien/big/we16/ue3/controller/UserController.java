@@ -63,7 +63,7 @@ public class UserController {
             if(error == null) {
                 error = new ErrorBean();
             }
-            error.setLastnameError(" Geburtsdatum muss die Form dd/mm/yyyy haben.");
+            error.setDateError(" Geburtsdatum muss die Form dd/mm/yyyy haben.");
         }
         if(date != null) {
             LocalDate now = LocalDate.now();
@@ -86,6 +86,11 @@ public class UserController {
                 error = new ErrorBean();
             }
             error.setEmailError(" Emailformat falsch.");
+        } else if(userService.doesUserExist(email)) {
+            if(error == null) {
+                error = new ErrorBean();
+            }
+            error.setEmailError("Emailadresse ist bereits in Verwendung.");
         }
 
     if(password == null || password.length() < 4 || password.length() > 8 ) {
@@ -98,7 +103,6 @@ public class UserController {
         if(error == null) {
             User user = new User(request.getParameter("salutation"), firstname, lastname, email, password, Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()), 150000, 0,0,0);
             //1500.00 wegen integer
-            //user.increaseBalance(150000);
             this.userService.createUser(user);
             this.authService.login(request.getSession(), user);
             response.sendRedirect("/");

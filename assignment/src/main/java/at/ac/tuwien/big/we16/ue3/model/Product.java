@@ -156,6 +156,11 @@ public class Product {
     public Product() {
     }
 
+    public void addRelated(RelatedProduct rp) {
+        this.relatedProducts.add(rp);
+    }
+
+
     public Product(final String name, final String image, final String imageAlt, final String dbpedia,final Date auctionEnd, final ProductType type, final int year, final String producer, final boolean expired) {
         this.name = name;
         this.image = image;

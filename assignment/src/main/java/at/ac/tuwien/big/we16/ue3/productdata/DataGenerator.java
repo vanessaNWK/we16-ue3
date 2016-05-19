@@ -71,9 +71,9 @@ public class DataGenerator {
             p.setProducer(book.getAuthor());
             p.setYear(new Integer(book.getYear()));
             p.setType(ProductType.BOOK);
-            buecher.add(p);
             DBAccess.getManager().persist(p);
-        }
+            buecher.add(p);
+            }
         for(JSONDataLoader.Movie movie : JSONDataLoader.getFilms()) {
             Product p = new Product();
             p.setId(movie.getId());
@@ -89,8 +89,8 @@ public class DataGenerator {
                 e.printStackTrace();
             }
             p.setType(ProductType.FILM);
-            movies.add(p);
             DBAccess.getManager().persist(p);
+            movies.add(p);
         }
         for(JSONDataLoader.Music music : JSONDataLoader.getMusic()) {
             Product p = new Product();
@@ -108,8 +108,8 @@ public class DataGenerator {
             } catch (ParseException e) {
                 System.err.println("parse error");
             }
-            musics.add(p);
             DBAccess.getManager().persist(p);
+            musics.add(p);
         }
         DBAccess.getManager().getTransaction().commit();
     }
@@ -123,6 +123,8 @@ public class DataGenerator {
         for (Product b : buecher) {
             String id = b.getId();
             String autor = b.getProducer();
+            autor = autor.replaceAll(" ", "_");
+
             Resource allezumautor = DBPediaService.loadStatements(DBPedia.createResource(autor));
 
 
@@ -138,12 +140,75 @@ public class DataGenerator {
             List<String> buechernameDE = DBPediaService.getResourceNames(buecher, Locale.GERMAN);
 
             DBAccess.getManager().getTransaction().begin();
-            for (String name :
-                    buechernameDE) {
+            for (String name : buechernameDE) {
+                RelatedProduct neu = new RelatedProduct();
+
+                neu.setName(name);
+                neu.setProduct(b);
+                DBAccess.getManager().persist(neu);
+                b.addRelated(neu);
+                DBAccess.getManager().merge(b);
+
+            }
+            DBAccess.getManager().getTransaction().commit();
+        }
+
+        for (Product b : movies) {
+            String id = b.getId();
+            String director = b.getProducer();
+            director = director.replaceAll(" ", "_");
+            Resource directors = DBPediaService.loadStatements(DBPedia.createResource(director));
+
+            SelectQueryBuilder movieQuery = DBPediaService.createQueryBuilder()
+                    .setLimit(5)// at most five statements
+                    .addWhereClause(RDF.type, DBPediaOWL.Film)
+                    .addPredicateExistsClause(FOAF.name)
+                    .addWhereClause(DBPediaOWL.director, directors)
+                    .addFilterClause(RDFS.label, Locale.GERMAN);
+            Model movies = DBPediaService.loadStatements(movieQuery.toQueryString());
+            System.out.println(movieQuery.toQueryString());
+
+            List<String> movienamenDE = DBPediaService.getResourceNames(movies, Locale.GERMAN);
+
+            DBAccess.getManager().getTransaction().begin();
+            for (String name : movienamenDE) {
+                RelatedProduct neu = new RelatedProduct();
+                System.out.println(name);
+                neu.setName(name);
+                neu.setProduct(b);
+                DBAccess.getManager().persist(neu);
+                b.addRelated(neu);
+                DBAccess.getManager().merge(b);
+            }
+            DBAccess.getManager().getTransaction().commit();
+        }
+
+        for (Product b : musics) {
+            String id = b.getId();
+            String artist = b.getProducer();
+            artist = artist.replaceAll(" ", "_");
+            Resource artists = DBPediaService.loadStatements(DBPedia.createResource(artist));
+
+            SelectQueryBuilder musicQuery = DBPediaService.createQueryBuilder()
+                    .setLimit(5)// at most five statements
+                    .addWhereClause(RDF.type, DBPediaOWL.MusicalWork)
+                    .addPredicateExistsClause(FOAF.name)
+                    .addWhereClause(DBPediaOWL.artist, artists)
+                    .addFilterClause(RDFS.label, Locale.GERMAN);
+
+            Model cds = DBPediaService.loadStatements(musicQuery.toQueryString());
+
+            List<String> CDDE = DBPediaService.getResourceNames(cds, Locale.GERMAN);
+
+            DBAccess.getManager().getTransaction().begin();
+            for (String name : CDDE) {
                 RelatedProduct neu = new RelatedProduct();
                 neu.setName(name);
                 neu.setProduct(b);
                 DBAccess.getManager().persist(neu);
+                b.addRelated(neu);
+                DBAccess.getManager().merge(b);
+
             }
             DBAccess.getManager().getTransaction().commit();
         }

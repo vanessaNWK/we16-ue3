@@ -3,24 +3,24 @@ package at.ac.tuwien.big.we16.ue3.service;
 import at.ac.tuwien.big.we16.ue3.exception.ProductNotFoundException;
 import at.ac.tuwien.big.we16.ue3.model.Bid;
 import at.ac.tuwien.big.we16.ue3.model.Product;
-import at.ac.tuwien.big.we16.ue3.model.ProductType;
 import at.ac.tuwien.big.we16.ue3.model.User;
-import org.h2.expression.Variable;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 
 public class ProductService {
     public Collection<Product> getAllProducts() {
-        TypedQuery<Product> productTypedQuery =
-                DBAccess.getManager().createQuery("FROM Product",
-                        Product.class);
+        TypedQuery<Product> productTypedQuery = DBAccess.getManager().createQuery("FROM Product", Product.class);
         return productTypedQuery.getResultList();
     }
 
@@ -47,6 +47,7 @@ public class ProductService {
                         user.decrementRunningAuctions();
                         if (highestBid.isBy(user)) {
                             user.incrementWonAuctionsCount();
+                            productSold(product,user);
                         }
                         else {
                             user.incrementLostAuctionsCount();
@@ -63,4 +64,70 @@ public class ProductService {
         }
         return newlyExpiredProducts;
     }
+
+    void productSold(Product product,User user)
+    {
+        ProductSoldRestResponse response= getUUIDFromJsonForSell(getRestPostReesponse("https://lectures.ecosio.com/b3a/api/v1/bids",getJsonFromObjectsForSell(product,user)));
+
+    }
+
+    String getRestPostReesponse(String surl, String requestData) {
+
+        String response="";
+        HttpURLConnection httpCon=null;
+        try {
+
+            URL url = new URL(surl);
+            httpCon = (HttpURLConnection) url.openConnection();
+            httpCon.setRequestMethod("POST");
+            httpCon.setRequestProperty("Content-Type", "application/json");
+
+            httpCon.getOutputStream().write(requestData.getBytes());
+            httpCon.getOutputStream().flush();
+
+            if (httpCon.getResponseCode() != 200) {
+                String error="REST Request failed: HTTP error code: " + httpCon.getResponseCode();
+                System.err.println(error);
+                //throw new RuntimeException(error);
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader((httpCon.getInputStream())));
+
+            String output;
+            while ((output = br.readLine()) != null) {
+                response+=output;
+            }
+            System.out.println("REST Request successful");
+            return response;
+
+        } catch (IOException e) {
+            String error="REST Request failed: Error in Serverconnection: "+e.getMessage();
+            System.err.println(error);
+            //throw new RuntimeException(error);
+            return "";
+        }
+        finally {
+            if(httpCon!=null)
+                httpCon.disconnect();
+
+        }
+
+
+    }
+    String getJsonFromObjectsForSell(Product product, User user)
+    {
+        return "{\"name\": \""+user.getFullName()+"\", \"product\": \""+product.getName()+"\", \"price\": \""+product.getHighestBid()+"\", \"date\": \""+product.getAuctionEnd()+"\" }";
+    }
+    ProductSoldRestResponse getUUIDFromJsonForSell(String json)
+    {
+        if("".equals(json)) {
+            Gson gson = new GsonBuilder().create();
+            return gson.fromJson(json, ProductSoldRestResponse.class);
+        }
+        else return null;
+    }
+
+
+
+
 }

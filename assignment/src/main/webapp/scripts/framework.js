@@ -96,7 +96,7 @@ $('.bid-form').on('submit', function(e) {
             else {
                 $(".bid-error").show();
             }
-        }
+        },"json"
     );
 });
 

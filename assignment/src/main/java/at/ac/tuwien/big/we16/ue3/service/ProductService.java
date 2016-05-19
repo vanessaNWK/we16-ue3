@@ -6,6 +6,10 @@ import at.ac.tuwien.big.we16.ue3.model.Product;
 import at.ac.tuwien.big.we16.ue3.model.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 
 import javax.persistence.*;
 import java.io.BufferedReader;
@@ -13,7 +17,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -65,13 +71,20 @@ public class ProductService {
         return newlyExpiredProducts;
     }
 
-    void productSold(Product product,User user)
-    {
+    public void productSold(Product product,User user) {
         ProductSoldRestResponse response= getUUIDFromJsonForSell(getRestPostReesponse("https://lectures.ecosio.com/b3a/api/v1/bids",getJsonFromObjectsForSell(product,user)));
-
+        TwitterStatusMessage tw = null;
+        tw = new TwitterStatusMessage(user.getFullName(), response.getId(), product.getAuctionEnd());
+        String message = tw.getTwitterPublicationString();
+        Twitter twitter = TwitterFactory.getSingleton();
+        try {
+            Status status = twitter.updateStatus(message);
+        } catch (TwitterException e) {
+            System.err.println("Beim Versuch auf Twitter zu posten ist ein Fehler aufgetreten. " + e.getMessage());
+        }
     }
 
-    String getRestPostReesponse(String surl, String requestData) {
+    public String getRestPostReesponse(String surl, String requestData) {
 
         String response="";
         HttpURLConnection httpCon=null;
@@ -115,13 +128,12 @@ public class ProductService {
 
 
     }
-    String getJsonFromObjectsForSell(Product product, User user) {
+    public String getJsonFromObjectsForSell(Product product, User user) {
         SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         DecimalFormat df2=new DecimalFormat("0.00");
         return  "{\"name\": \"" + user.getFullName() + "\", \"product\": \"" + product.getName() + "\", \"price\": \"" + df2.format(product.getHighestBid().getAmount() / 100) + "\", \"date\": \"" + df1.format(product.getAuctionEnd()) + "\" }";
     }
-    ProductSoldRestResponse getUUIDFromJsonForSell(String json)
-    {
+    public ProductSoldRestResponse getUUIDFromJsonForSell(String json) {
         if(!"".equals(json)) {
             Gson gson = new GsonBuilder().create();
             ProductSoldRestResponse response=gson.fromJson(json, ProductSoldRestResponse.class);
@@ -130,8 +142,4 @@ public class ProductService {
         }
         else return null;
     }
-
-
-
-
 }

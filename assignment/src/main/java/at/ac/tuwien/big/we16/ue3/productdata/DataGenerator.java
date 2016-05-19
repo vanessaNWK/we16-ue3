@@ -51,7 +51,6 @@ public class DataGenerator {
     }
 
     private void generateProductData() {
-        System.err.println("generate Product Data");
         // TODO load products via JSONDataLoader and write them to the database
         DBAccess.getManager().getTransaction().begin();
         for(JSONDataLoader.Book book : JSONDataLoader.getBooks()) {
@@ -63,7 +62,7 @@ public class DataGenerator {
             try {
                 p.setAuctionEnd(df.parse(book.getAuctionEnd()));
             } catch (ParseException e) {
-                e.printStackTrace();
+                System.err.println("AuctionEnd for Product with Name " + p.getName() + " could not be parsed");
             }
             p.setProducer(book.getAuthor());
             p.setYear(new Integer(book.getYear()));
@@ -82,7 +81,7 @@ public class DataGenerator {
             try {
                 p.setAuctionEnd(df.parse(movie.getAuctionEnd()));
             } catch (ParseException e) {
-                e.printStackTrace();
+                System.err.println("AuctionEnd for Product with Name " + p.getName() + " could not be parsed");
             }
             p.setType(ProductType.FILM);
             DBAccess.getManager().persist(p);
@@ -101,7 +100,7 @@ public class DataGenerator {
             try {
                 p.setAuctionEnd(df.parse(music.getAuctionEnd()));
             } catch (ParseException e) {
-                System.err.println("parse error");
+                System.err.println("AuctionEnd for Product with Name " + p.getName() + " could not be parsed");
             }
             DBAccess.getManager().persist(p);
             musics.add(p);
@@ -113,15 +112,10 @@ public class DataGenerator {
         // TODO load related products from dbpedia and write them to the database
         if (!DBPediaService.isAvailable())
             return;
-
-
         for (Product b : buecher) {
-            String id = b.getId();
             String autor = b.getProducer();
             autor = autor.replaceAll(" ", "_");
-
             Resource allezumautor = DBPediaService.loadStatements(DBPedia.createResource(autor));
-
 
             SelectQueryBuilder bookQuery = DBPediaService.createQueryBuilder()
                     .setLimit(5)// at most five statements
@@ -137,13 +131,11 @@ public class DataGenerator {
             DBAccess.getManager().getTransaction().begin();
             for (String name : buechernameDE) {
                 RelatedProduct neu = new RelatedProduct();
-
                 neu.setName(name);
                 neu.setProduct(b);
                 DBAccess.getManager().persist(neu);
                 b.addRelated(neu);
                 DBAccess.getManager().merge(b);
-
             }
             DBAccess.getManager().getTransaction().commit();
         }
@@ -161,14 +153,12 @@ public class DataGenerator {
                     .addWhereClause(DBPediaOWL.director, directors)
                     .addFilterClause(RDFS.label, Locale.GERMAN);
             Model movies = DBPediaService.loadStatements(movieQuery.toQueryString());
-            System.out.println(movieQuery.toQueryString());
 
             List<String> movienamenDE = DBPediaService.getResourceNames(movies, Locale.GERMAN);
 
             DBAccess.getManager().getTransaction().begin();
             for (String name : movienamenDE) {
                 RelatedProduct neu = new RelatedProduct();
-                System.out.println(name);
                 neu.setName(name);
                 neu.setProduct(b);
                 DBAccess.getManager().persist(neu);
@@ -207,7 +197,5 @@ public class DataGenerator {
             }
             DBAccess.getManager().getTransaction().commit();
         }
-
-
     }
 }

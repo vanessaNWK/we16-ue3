@@ -2,12 +2,10 @@ package at.ac.tuwien.big.we16.ue3.service;
 
 import at.ac.tuwien.big.we16.ue3.exception.UserNotFoundException;
 import at.ac.tuwien.big.we16.ue3.model.User;
-import org.apache.log4j.*;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class UserService {
-
     public UserService() {
     }
 
@@ -21,7 +19,6 @@ public class UserService {
         DBAccess.getManager().getTransaction().begin();
         DBAccess.getManager().persist(user);
         DBAccess.getManager().getTransaction().commit();
-        System.out.println("Id:" + user.getId());
     }
 
     /**

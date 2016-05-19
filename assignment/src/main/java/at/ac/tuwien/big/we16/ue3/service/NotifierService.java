@@ -37,7 +37,9 @@ public class NotifierService {
     }
 
     public void notifyAllAboutBid(Bid bid) {
+
         this.sendToAllSockets(new NewBidVisitor(bid));
+
     }
 
     public void notifyReimbursement(User user) {
@@ -113,4 +115,6 @@ public class NotifierService {
             return null;
         }
     }
+
+
 }

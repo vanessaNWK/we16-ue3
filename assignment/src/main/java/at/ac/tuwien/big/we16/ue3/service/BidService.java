@@ -56,19 +56,6 @@ public class BidService {
         Bid bid = new Bid(centAmount, user);
         bid.setProduct(product);
         product.addBid(bid);
-        TwitterStatusMessage tw = new TwitterStatusMessage(user.getFullName(), "a5d68110-562b-437f-992a-8b6735f9d251", product.getAuctionEnd());
-        String message = tw.getTwitterPublicationString();
-        Twitter twitter = TwitterFactory.getSingleton();
-
-        twitter.setOAuthConsumer("GZ6tiy1XyB9W0P4xEJudQ","gaJDlW0vf7en46JwHAOkZsTHvtAiZ3QUd2mD1x26J9w");
-        twitter.setOAuthAccessToken(new AccessToken("1366513208-MutXEbBMAVOwrbFmZtj1r4Ih2vcoHGHE2207002", "RMPWOePlus3xtURWRVnv1TgrjTyK7Zk33evp4KKyA"));
-
-        try {
-            Status status = twitter.updateStatus(message);
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-
         //TODO: write to db
         DBAccess.getManager().getTransaction().begin();
         DBAccess.getManager().merge(user);

@@ -36,7 +36,7 @@
             "year": "1813",
             "img" : "pride_and_prejudice.png",
             "dbpedia": "http://dbpedia.org/page/Pride_and_Prejudice",
-            "auctionEnd": "2016,05,22,14,22,15,123",
+            "auctionEnd": "2016,05,20,00,00,15,123",
             "imageAlt": "Pride and Prejudice by Jane Austen written in normal letters"
         },
         {
@@ -74,7 +74,7 @@
             "year": "2015",
             "img" : "the_martian.png",
             "dbpedia": "http://dbpedia.org/page/The_Martian_(film)",
-            "auctionEnd": "2016,05,22,14,22,15,123",
+            "auctionEnd": "2016,05,19,22,59,58,123",
             "imageAlt": "The Martian by Ridley Scott written in normal letters"
         },
         {
@@ -83,7 +83,7 @@
             "year": "1939",
             "img" : "the_wizard_of_oz.png",
             "dbpedia": "http://dbpedia.org/page/The_Wizard_of_Oz_(1939_film)",
-            "auctionEnd": "2016,05,22,14,22,15,123",
+            "auctionEnd": "2016,05,19,23,42,42,123",
             "imageAlt": "The Wizard of Oz by Victor Fleming written in normal letters"
         }
     ]

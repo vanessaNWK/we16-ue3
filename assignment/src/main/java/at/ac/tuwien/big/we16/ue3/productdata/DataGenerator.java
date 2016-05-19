@@ -121,11 +121,10 @@ public class DataGenerator {
 
 
         for (Product b : buecher) {
+            String id = b.getId();
             String autor = b.getProducer();
             Resource allezumautor = DBPediaService.loadStatements(DBPedia.createResource(autor));
 
-            String englishautorName = DBPediaService.getResourceName(allezumautor, Locale.ENGLISH);
-            String germanautoName = DBPediaService.getResourceName(allezumautor, Locale.GERMAN);
 
             SelectQueryBuilder bookQuery = DBPediaService.createQueryBuilder()
                     .setLimit(5)// at most five statements
@@ -136,8 +135,17 @@ public class DataGenerator {
 
             Model buecher = DBPediaService.loadStatements(bookQuery.toQueryString());
 
-            List<String> Buecher = DBPediaService.getResourceNames(buecher, Locale.GERMAN);
-            //TODO persistieren!
+            List<String> buechernameDE = DBPediaService.getResourceNames(buecher, Locale.GERMAN);
+
+            DBAccess.getManager().getTransaction().begin();
+            for (String name :
+                    buechernameDE) {
+                RelatedProduct neu = new RelatedProduct();
+                neu.setName(name);
+                neu.setProduct(b);
+                DBAccess.getManager().persist(neu);
+            }
+            DBAccess.getManager().getTransaction().commit();
         }
 
 

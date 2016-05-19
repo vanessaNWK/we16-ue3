@@ -25,7 +25,7 @@
                 <li>
                     <c:choose>
                         <c:when test="${not empty param.showLogout}">
-                            <a href="./logout" class="button" accesskey="l">Abmelden</a>
+                            <a href="../logout" class="button" accesskey="l">Abmelden</a>
                         </c:when>
                         <c:when test="${not empty param.showLogin}">
                             <a href="./login" class="button" accesskey="l">Anmelden</a>

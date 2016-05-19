@@ -89,7 +89,6 @@ public class DataGenerator {
         }
         for(JSONDataLoader.Music music : JSONDataLoader.getMusic()) {
             Product p = new Product();
-            System.err.println(music.getAlbum_name());
             p.setName(music.getAlbum_name());
             p.setImage(music.getImg());
             p.setProducer(music.getArtist());

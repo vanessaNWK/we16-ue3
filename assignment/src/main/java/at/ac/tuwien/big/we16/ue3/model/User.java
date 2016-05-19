@@ -1,21 +1,33 @@
 package at.ac.tuwien.big.we16.ue3.model;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parameter;
+
 import javax.persistence.*;
-import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
 @Table(name="User")
 public class User {
+    @Id
+    @GeneratedValue(generator="uuid2")
+    @GenericGenerator(name="uuid2", strategy = "uuid2", parameters = {@Parameter(name = "separator", value = "-")})
+    private String id;
+
     @Column(name="salutation")
     private String salutation;
+
     @Column(name="firstname")
     private String firstname;
+
     @Column(name="lastname")
     private String lastname;
-    @Id
+
     @Column(name="email")
     private String email;
+
     @Column(name="password")
     private String password;
 
@@ -25,12 +37,38 @@ public class User {
 
     @Column(name="balance")
     private int balance;
+
     @Column(name="runningAuctionsCount")
     private int runningAuctionsCount;
+
     @Column(name="wonAuctionsCount")
     private int wonAuctionsCount;
+
     @Column(name="lostAuctionsCount")
     private int lostAuctionsCount;
+
+    public User(final String salutation, final String firstname, final String lastname, final String email, final String password, final Date date, final int balance, final int runningAuctionsCount, final int wonAuctionsCount, final int lostAuctionsCount) {
+        this.salutation = salutation;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.date = date;
+        this.balance = balance;
+        this.runningAuctionsCount = runningAuctionsCount;
+        this.wonAuctionsCount = wonAuctionsCount;
+        this.lostAuctionsCount = lostAuctionsCount;
+    }
+
+    public User() {}
+
+    public String getId() {
+        return id;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
 
     public String getFullName() {
         return this.firstname + " " + this.lastname;
@@ -112,19 +150,4 @@ public class User {
     public String getLastname() {
         return lastname;
     }
-
-    public User(final String salutation, final String firstname, final String lastname, final String email, final String password, final Date date, final int balance, final int runningAuctionsCount, final int wonAuctionsCount, final int lostAuctionsCount) {
-        this.salutation = salutation;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
-        this.date = date;
-        this.balance = balance;
-        this.runningAuctionsCount = runningAuctionsCount;
-        this.wonAuctionsCount = wonAuctionsCount;
-        this.lostAuctionsCount = lostAuctionsCount;
-    }
-
-    public User() {}
 }

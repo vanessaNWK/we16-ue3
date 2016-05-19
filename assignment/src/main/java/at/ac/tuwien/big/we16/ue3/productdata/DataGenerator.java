@@ -42,14 +42,12 @@ public class DataGenerator {
 
     private void generateUserData() {
         // TODO add the computer user to the database
-        if(DBAccess.getManager().find(User.class, "vanessa.kos@gmx.at") == null) {
             DBAccess.getManager().getTransaction().begin();
             User computer = new User("*", "Computer", "User", "computer.user@gmx.at", "Test", new Date(), 0, 0, 0, 0);
             User me = new User("Herr", "Max", "Mustermann", "vanessa.kos@gmx.at", "melody", new Date(), 150000, 0, 0, 0);
             DBAccess.getManager().persist(computer);
             DBAccess.getManager().persist(me);
             DBAccess.getManager().getTransaction().commit();
-        }
     }
 
     private void generateProductData() {
@@ -58,7 +56,6 @@ public class DataGenerator {
         DBAccess.getManager().getTransaction().begin();
         for(JSONDataLoader.Book book : JSONDataLoader.getBooks()) {
             Product p = new Product();
-            p.setId(book.getId());
             p.setName(book.getTitle());
             p.setImage(book.getImg());
             p.setImageAlt(book.getImageAlt());
@@ -76,7 +73,6 @@ public class DataGenerator {
             }
         for(JSONDataLoader.Movie movie : JSONDataLoader.getFilms()) {
             Product p = new Product();
-            p.setId(movie.getId());
             p.setName(movie.getTitle());
             p.setImage(movie.getImg());
             p.setProducer(movie.getDirector());
@@ -95,7 +91,6 @@ public class DataGenerator {
         for(JSONDataLoader.Music music : JSONDataLoader.getMusic()) {
             Product p = new Product();
             System.err.println(music.getAlbum_name());
-            p.setId(music.getId());
             p.setName(music.getAlbum_name());
             p.setImage(music.getImg());
             p.setProducer(music.getArtist());

@@ -1,14 +1,20 @@
 package at.ac.tuwien.big.we16.ue3.model;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table
 public class Bid {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(generator="uuid2")
+    @GenericGenerator(name="uuid2", strategy = "uuid2", parameters = {@org.hibernate.annotations.Parameter(name = "separator", value = "-")})
+    private String id;
 
     @Column(name="amount")
     private int amount;
@@ -28,11 +34,11 @@ public class Bid {
         this.user = user;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -1,8 +1,13 @@
 package at.ac.tuwien.big.we16.ue3.model;
 
 import at.ac.tuwien.big.we16.ue3.exception.InvalidBidException;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -12,15 +17,22 @@ import java.util.stream.Collectors;
 @Table
 public class Product {
     @Id
+    @GeneratedValue(generator="uuid2")
+    @GenericGenerator(name="uuid2", strategy = "uuid2", parameters = {@Parameter(name = "separator", value = "-")})
     private String id;
+
     @Column(name="name")
     private String name;
+
     @Column(name="image")
     private String image;
+
     @Column(name="imageAlt")
     private String imageAlt;
+
     @Column(name="dbpedia")
     private String dbpedia;
+
     @Column(name="date")
     @Temporal(TemporalType.DATE)
     private Date auctionEnd;
@@ -30,10 +42,13 @@ public class Product {
 
     @Column(name="year")
     private int year;
+
     @Column(name="producer")
     private String producer;
+
     @Column(name="expired")
     private boolean expired;
+
     @Transient
     private DateFormat df = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss,SSS");
 

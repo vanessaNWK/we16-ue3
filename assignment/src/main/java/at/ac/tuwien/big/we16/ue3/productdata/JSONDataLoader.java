@@ -67,7 +67,6 @@ public class JSONDataLoader {
     }
 
     public class Music {
-        private String id;
         private String dbpedia;
         private String album_name;
         private String artist;
@@ -116,15 +115,6 @@ public class JSONDataLoader {
             return imageAlt;
         }
 
-        public String getId() {
-            return id;
-        }
-
-        public Music setId(final String id) {
-            this.id = id;
-            return this;
-        }
-
         public String getDbpedia() {
             return dbpedia;
         }
@@ -146,7 +136,6 @@ public class JSONDataLoader {
     }
 
     public class Book {
-        private String id;
         private String dbpedia;
         private String title;
         private String author;
@@ -206,15 +195,6 @@ public class JSONDataLoader {
             return imageAlt;
         }
 
-        public String getId() {
-            return id;
-        }
-
-        public Book setId(final String id) {
-            this.id = id;
-            return this;
-        }
-
         public String getDbpedia() {
             return dbpedia;
         }
@@ -226,7 +206,6 @@ public class JSONDataLoader {
     }
 
     public class Movie {
-        private String id;
         private String dbpedia;
         private String title;
         private String director;
@@ -284,15 +263,6 @@ public class JSONDataLoader {
 
         public String getImageAlt() {
             return imageAlt;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public Movie setId(final String id) {
-            this.id = id;
-            return this;
         }
 
         public String getDbpedia() {

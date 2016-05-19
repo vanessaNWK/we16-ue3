@@ -115,16 +115,14 @@ public class DataGenerator {
     }
 
     private void insertRelatedProducts() {
+        System.out.println("insert Related Productt");
         // TODO load related products from dbpedia and write them to the database
         if (!DBPediaService.isAvailable())
             return;
-
-
         for (Product b : buecher) {
             String id = b.getId();
             String autor = b.getProducer();
             Resource allezumautor = DBPediaService.loadStatements(DBPedia.createResource(autor));
-
 
             SelectQueryBuilder bookQuery = DBPediaService.createQueryBuilder()
                     .setLimit(5)// at most five statements
@@ -136,7 +134,6 @@ public class DataGenerator {
             Model buecher = DBPediaService.loadStatements(bookQuery.toQueryString());
 
             List<String> buechernameDE = DBPediaService.getResourceNames(buecher, Locale.GERMAN);
-
             DBAccess.getManager().getTransaction().begin();
             for (String name :
                     buechernameDE) {
@@ -144,8 +141,14 @@ public class DataGenerator {
                 neu.setName(name);
                 neu.setProduct(b);
                 DBAccess.getManager().persist(neu);
+                b.addRelated(neu);
+                DBAccess.getManager().merge(b);
             }
             DBAccess.getManager().getTransaction().commit();
+            System.out.println("RElatedproducts");
+            for(RelatedProduct fp : b.getRelatedProducts()) {
+                System.out.println(" id " + fp.getId());
+            }
         }
 
 

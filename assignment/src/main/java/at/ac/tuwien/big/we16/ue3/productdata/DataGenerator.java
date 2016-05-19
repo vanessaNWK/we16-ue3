@@ -115,14 +115,17 @@ public class DataGenerator {
     }
 
     private void insertRelatedProducts() {
-        System.out.println("insert Related Productt");
         // TODO load related products from dbpedia and write them to the database
         if (!DBPediaService.isAvailable())
             return;
+
+
         for (Product b : buecher) {
             String id = b.getId();
             String autor = b.getProducer();
+            autor = autor.replaceAll(" ", "_");
             Resource allezumautor = DBPediaService.loadStatements(DBPedia.createResource(autor));
+
 
             SelectQueryBuilder bookQuery = DBPediaService.createQueryBuilder()
                     .setLimit(5)// at most five statements
@@ -134,10 +137,42 @@ public class DataGenerator {
             Model buecher = DBPediaService.loadStatements(bookQuery.toQueryString());
 
             List<String> buechernameDE = DBPediaService.getResourceNames(buecher, Locale.GERMAN);
+
             DBAccess.getManager().getTransaction().begin();
-            for (String name :
-                    buechernameDE) {
+            for (String name : buechernameDE) {
                 RelatedProduct neu = new RelatedProduct();
+
+                neu.setName(name);
+                neu.setProduct(b);
+                DBAccess.getManager().persist(neu);
+                b.addRelated(neu);
+                DBAccess.getManager().merge(b);
+
+            }
+            DBAccess.getManager().getTransaction().commit();
+        }
+
+        for (Product b : movies) {
+            String id = b.getId();
+            String director = b.getProducer();
+            director = director.replaceAll(" ", "_");
+            Resource directors = DBPediaService.loadStatements(DBPedia.createResource(director));
+
+            SelectQueryBuilder movieQuery = DBPediaService.createQueryBuilder()
+                    .setLimit(5)// at most five statements
+                    .addWhereClause(RDF.type, DBPediaOWL.Film)
+                    .addPredicateExistsClause(FOAF.name)
+                    .addWhereClause(DBPediaOWL.director, directors)
+                    .addFilterClause(RDFS.label, Locale.GERMAN);
+            Model movies = DBPediaService.loadStatements(movieQuery.toQueryString());
+            System.out.println(movieQuery.toQueryString());
+
+            List<String> movienamenDE = DBPediaService.getResourceNames(movies, Locale.GERMAN);
+
+            DBAccess.getManager().getTransaction().begin();
+            for (String name : movienamenDE) {
+                RelatedProduct neu = new RelatedProduct();
+                System.out.println(name);
                 neu.setName(name);
                 neu.setProduct(b);
                 DBAccess.getManager().persist(neu);
@@ -145,10 +180,36 @@ public class DataGenerator {
                 DBAccess.getManager().merge(b);
             }
             DBAccess.getManager().getTransaction().commit();
-            System.out.println("RElatedproducts");
-            for(RelatedProduct fp : b.getRelatedProducts()) {
-                System.out.println(" id " + fp.getId());
+        }
+
+        for (Product b : musics) {
+            String id = b.getId();
+            String artist = b.getProducer();
+            artist = artist.replaceAll(" ", "_");
+            Resource artists = DBPediaService.loadStatements(DBPedia.createResource(artist));
+
+            SelectQueryBuilder musicQuery = DBPediaService.createQueryBuilder()
+                    .setLimit(5)// at most five statements
+                    .addWhereClause(RDF.type, DBPediaOWL.MusicalWork)
+                    .addPredicateExistsClause(FOAF.name)
+                    .addWhereClause(DBPediaOWL.artist, artists)
+                    .addFilterClause(RDFS.label, Locale.GERMAN);
+
+            Model cds = DBPediaService.loadStatements(musicQuery.toQueryString());
+
+            List<String> CDDE = DBPediaService.getResourceNames(cds, Locale.GERMAN);
+
+            DBAccess.getManager().getTransaction().begin();
+            for (String name : CDDE) {
+                RelatedProduct neu = new RelatedProduct();
+                neu.setName(name);
+                neu.setProduct(b);
+                DBAccess.getManager().persist(neu);
+                b.addRelated(neu);
+                DBAccess.getManager().merge(b);
+
             }
+            DBAccess.getManager().getTransaction().commit();
         }
 
 

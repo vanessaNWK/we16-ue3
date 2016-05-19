@@ -1,16 +1,36 @@
 package at.ac.tuwien.big.we16.ue3.productdata;
 
+import at.ac.tuwien.big.we.dbpedia.api.DBPediaService;
+import at.ac.tuwien.big.we.dbpedia.api.SelectQueryBuilder;
+import at.ac.tuwien.big.we.dbpedia.vocabulary.DBPedia;
+import at.ac.tuwien.big.we.dbpedia.vocabulary.DBPediaOWL;
 import at.ac.tuwien.big.we16.ue3.model.*;
 import at.ac.tuwien.big.we16.ue3.service.DBAccess;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.sparql.vocabulary.FOAF;
+import com.hp.hpl.jena.vocabulary.RDF;
+import com.hp.hpl.jena.vocabulary.RDFS;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 
 public class DataGenerator {
     private static int call = 0;
     private DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+
+    private List<Product> buecher = new LinkedList<>();
+
+    private List<Product> musics = new LinkedList<>();
+
+    private List<Product> movies = new LinkedList<>();
+
+
     public void generateData() {
         call++;
         if(call <= 1) {
@@ -51,6 +71,7 @@ public class DataGenerator {
             p.setProducer(book.getAuthor());
             p.setYear(new Integer(book.getYear()));
             p.setType(ProductType.BOOK);
+            buecher.add(p);
             DBAccess.getManager().persist(p);
         }
         for(JSONDataLoader.Movie movie : JSONDataLoader.getFilms()) {
@@ -68,6 +89,7 @@ public class DataGenerator {
                 e.printStackTrace();
             }
             p.setType(ProductType.FILM);
+            movies.add(p);
             DBAccess.getManager().persist(p);
         }
         for(JSONDataLoader.Music music : JSONDataLoader.getMusic()) {
@@ -86,6 +108,7 @@ public class DataGenerator {
             } catch (ParseException e) {
                 System.err.println("parse error");
             }
+            musics.add(p);
             DBAccess.getManager().persist(p);
         }
         DBAccess.getManager().getTransaction().commit();
@@ -93,5 +116,30 @@ public class DataGenerator {
 
     private void insertRelatedProducts() {
         // TODO load related products from dbpedia and write them to the database
+        if (!DBPediaService.isAvailable())
+            return;
+
+
+        for (Product b : buecher) {
+            String autor = b.getProducer();
+            Resource allezumautor = DBPediaService.loadStatements(DBPedia.createResource(autor));
+
+            String englishautorName = DBPediaService.getResourceName(allezumautor, Locale.ENGLISH);
+            String germanautoName = DBPediaService.getResourceName(allezumautor, Locale.GERMAN);
+
+            SelectQueryBuilder bookQuery = DBPediaService.createQueryBuilder()
+                    .setLimit(5)// at most five statements
+                    .addWhereClause(RDF.type, DBPediaOWL.Book)
+                    .addPredicateExistsClause(FOAF.name)
+                    .addWhereClause(DBPediaOWL.author, allezumautor)
+                    .addFilterClause(RDFS.label, Locale.GERMAN);
+
+            Model buecher = DBPediaService.loadStatements(bookQuery.toQueryString());
+
+            List<String> Buecher = DBPediaService.getResourceNames(buecher, Locale.GERMAN);
+            //TODO persistieren!
+        }
+
+
     }
 }

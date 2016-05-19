@@ -124,6 +124,7 @@ public class DataGenerator {
             String id = b.getId();
             String autor = b.getProducer();
             autor = autor.replaceAll(" ", "_");
+
             Resource allezumautor = DBPediaService.loadStatements(DBPedia.createResource(autor));
 
 

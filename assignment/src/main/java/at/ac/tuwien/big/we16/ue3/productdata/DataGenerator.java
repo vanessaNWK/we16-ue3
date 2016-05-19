@@ -22,7 +22,7 @@ import java.util.Locale;
 
 public class DataGenerator {
     private static int call = 0;
-    private DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+    private DateFormat df = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss,SSS");
 
     private List<Product> buecher = new LinkedList<>();
 
@@ -44,7 +44,7 @@ public class DataGenerator {
         // TODO add the computer user to the database
         if(DBAccess.getManager().find(User.class, "vanessa.kos@gmx.at") == null) {
             DBAccess.getManager().getTransaction().begin();
-            User computer = new User("*", "Computer", "User", "computer.user@gmx.at", "IchLi3b3Pr#8raMmi3r3n!", new Date(), 0, 0, 0, 0);
+            User computer = new User("*", "Computer", "User", "computer.user@gmx.at", "Test", new Date(), 0, 0, 0, 0);
             User me = new User("Frau", "Vanessa", "Kos", "vanessa.kos@gmx.at", "melody", new Date(), 150000, 0, 0, 0);
             DBAccess.getManager().persist(computer);
             DBAccess.getManager().persist(me);

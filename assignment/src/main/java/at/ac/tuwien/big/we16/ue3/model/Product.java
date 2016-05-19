@@ -3,6 +3,8 @@ package at.ac.tuwien.big.we16.ue3.model;
 import at.ac.tuwien.big.we16.ue3.exception.InvalidBidException;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,6 +34,8 @@ public class Product {
     private String producer;
     @Column(name="expired")
     private boolean expired;
+    @Transient
+    private DateFormat df = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss,SSS");
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
     private List<RelatedProduct> relatedProducts = new ArrayList<>();
@@ -208,6 +212,10 @@ public class Product {
 
     public void setDbpedia(final String dbpedia) {
         this.dbpedia = dbpedia;
+    }
+
+    public String getAuctionStringEnd() {
+        return df.format(this.auctionEnd);
     }
 
 }

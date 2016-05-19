@@ -7,7 +7,7 @@
             "year": "1999",
             "img" : "red_hot_chili_peppers.png",
             "dbpedia": "http://dbpedia.org/page/Californication_(album)",
-            "auctionEnd": "22.05.2016",
+            "auctionEnd": "2016,05,22,14,22,15,123",
             "imageAlt": "Red Hot Chili Peppers written in a circle"
         },
         {
@@ -17,7 +17,7 @@
             "year": "2002",
             "img" : "rolling_stones.png",
             "dbpedia": "http://dbpedia.org/page/Forty_Licks",
-            "auctionEnd": "22.05.2016",
+            "auctionEnd": "2016,05,22,14,22,15,123",
             "imageAlt": "The Rolling Stones tongue"
 
         },
@@ -28,7 +28,7 @@
             "year": "1997",
             "img" : "metallica.png",
             "dbpedia": "http://dbpedia.org/page/Reload_(Metallica_album)",
-            "auctionEnd": "22.05.2016",
+            "auctionEnd": "2016,05,22,14,22,15,123",
             "imageAlt": "Metallica Logo"
         }
     ],
@@ -40,7 +40,7 @@
             "year": "1813",
             "img" : "pride_and_prejudice.png",
             "dbpedia": "http://dbpedia.org/page/Pride_and_Prejudice",
-            "auctionEnd": "20.05.2016",
+            "auctionEnd": "2016,05,22,14,22,15,123",
             "imageAlt": "Pride and Prejudice by Jane Austen written in normal letters"
         },
         {
@@ -50,7 +50,7 @@
             "year": "1949",
             "img" : "1984.png",
             "dbpedia": "http://dbpedia.org/page/Nineteen_Eighty-Four",
-            "auctionEnd": "22.05.2016",
+            "auctionEnd": "2016,05,22,14,22,15,123",
             "imageAlt": "1984 by George Orwell written in normal letters"
         },
         {
@@ -60,7 +60,7 @@
             "year": "1925",
             "img" : "the_great_gatsby.png",
             "dbpedia": "http://dbpedia.org/page/The_Great_Gatsby",
-            "auctionEnd": "22.05.2016",
+            "auctionEnd": "2016,05,22,14,22,15,123",
             "imageAlt": "The Great Gatsby written by F. Fitzgerald written in normal letters"
         }
     ],
@@ -72,7 +72,7 @@
             "year": "1972",
             "img" : "the_godfather.png",
             "dbpedia": "http://dbpedia.org/page/The_Godfather",
-            "auctionEnd": "22.05.2016",
+            "auctionEnd": "2016,05,22,14,22,15,123",
             "imageAlt": "The Godfather by Francis Coppola written in normal letters"
         },
         {
@@ -82,7 +82,7 @@
             "year": "2015",
             "img" : "the_martian.png",
             "dbpedia": "http://dbpedia.org/page/The_Martian_(film)",
-            "auctionEnd": "22.05.2016",
+            "auctionEnd": "2016,05,22,14,22,15,123",
             "imageAlt": "The Martian by Ridley Scott written in normal letters"
         },
         {
@@ -92,7 +92,7 @@
             "year": "1939",
             "img" : "the_wizard_of_oz.png",
             "dbpedia": "http://dbpedia.org/page/The_Wizard_of_Oz_(1939_film)",
-            "auctionEnd": "22.05.2016",
+            "auctionEnd": "2016,05,22,14,22,15,123",
             "imageAlt": "The Wizard of Oz by Victor Fleming written in normal letters"
         }
     ]

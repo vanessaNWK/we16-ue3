@@ -72,6 +72,7 @@ public class DataGenerator {
         }
         for(JSONDataLoader.Music music : JSONDataLoader.getMusic()) {
             Product p = new Product();
+            System.err.println(music.getAlbum_name());
             p.setId(music.getId());
             p.setName(music.getAlbum_name());
             p.setImage(music.getImg());
@@ -83,11 +84,11 @@ public class DataGenerator {
             try {
                 p.setAuctionEnd(df.parse(music.getAuctionEnd()));
             } catch (ParseException e) {
-                e.printStackTrace();
+                System.err.println("parse error");
             }
             DBAccess.getManager().persist(p);
-            DBAccess.getManager().getTransaction().commit();
         }
+        DBAccess.getManager().getTransaction().commit();
     }
 
     private void insertRelatedProducts() {

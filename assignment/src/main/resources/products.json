@@ -18,7 +18,8 @@
             "img" : "rolling_stones.png",
             "dbpedia": "http://dbpedia.org/page/Forty_Licks",
             "auctionEnd": "22.05.2016",
-            "imageAlt": "Typical Rolling Stones tongue"
+            "imageAlt": "The Rolling Stones tongue"
+
         },
         {
             "id": "ef4c3945-7e34-4676-bb61-94ee7866fd84",
@@ -28,7 +29,7 @@
             "img" : "metallica.png",
             "dbpedia": "http://dbpedia.org/page/Reload_(Metallica_album)",
             "auctionEnd": "22.05.2016",
-            "imageAlt": "Metallica with long M and A"
+            "imageAlt": "Metallica Logo"
         }
     ],
     "books": [

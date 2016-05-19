@@ -51,8 +51,14 @@ public class ProductService {
                         else {
                             user.incrementLostAuctionsCount();
                         }
+                        DBAccess.getManager().getTransaction().begin();
+                        DBAccess.getManager().merge(user);
+                        DBAccess.getManager().getTransaction().commit();
                     }
                 }
+                DBAccess.getManager().getTransaction().begin();
+                DBAccess.getManager().merge(product);
+                DBAccess.getManager().getTransaction().commit();
             }
         }
         return newlyExpiredProducts;

@@ -36,6 +36,9 @@ public class BidService {
             }
             else {
                 // TODO reimburse current highest bidder
+                //computeruser beachten
+                highestBidder = product.getHighestBid().getUser();
+                highestBidder.increaseBalance(product.getHighestBid().getAmount());
                 ServiceFactory.getNotifierService().notifyReimbursement(highestBidder);
             }
         }
@@ -46,8 +49,15 @@ public class BidService {
 
         user.decreaseBalance(decreaseAmount);
         Bid bid = new Bid(centAmount, user);
+        bid.setProduct(product);
+        product.addBid(bid);
 
         //TODO: write to db
+        DBAccess.getManager().getTransaction().begin();
+        DBAccess.getManager().merge(user);
+        DBAccess.getManager().persist(bid);
+        DBAccess.getManager().merge(product);
+        DBAccess.getManager().getTransaction().commit();
 
         ServiceFactory.getNotifierService().notifyAllAboutBid(bid);
     }

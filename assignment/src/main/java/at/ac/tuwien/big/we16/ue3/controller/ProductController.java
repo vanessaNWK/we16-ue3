@@ -40,7 +40,9 @@ public class  ProductController {
 
     public void postBid(HttpServletRequest request, HttpServletResponse response, String id) throws ServletException, IOException, ProductNotFoundException, UserNotFoundException {
         Product product = this.productService.getProductById(id);
-        BigDecimal amount = new BigDecimal(request.getParameter("amount"));
+      //  BigDecimal amount = new BigDecimal(request.getParameter("amount"));
+        BigDecimal amount = new BigDecimal(request.getParameter("new-price"));
+        System.err.println("postbid");
         User user = this.authService.getUser(request.getSession());
         String json;
         try {

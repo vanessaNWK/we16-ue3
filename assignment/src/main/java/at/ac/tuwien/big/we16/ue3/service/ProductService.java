@@ -79,6 +79,7 @@ public class ProductService {
         Twitter twitter = TwitterFactory.getSingleton();
         try {
             Status status = twitter.updateStatus(message);
+            System.out.println("Status: " + status.getSource() + " Posted Message: " + message);
         } catch (TwitterException e) {
             System.err.println("Beim Versuch auf Twitter zu posten ist ein Fehler aufgetreten. " + e.getMessage());
         }

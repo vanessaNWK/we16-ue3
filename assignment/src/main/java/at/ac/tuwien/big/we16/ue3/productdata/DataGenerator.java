@@ -15,20 +15,17 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class DataGenerator {
     private static int call = 0;
     private DateFormat df = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss,SSS");
 
-    private List<Product> buecher = new LinkedList<>();
+    private Map<Product,String> buecher = new LinkedHashMap<>();
 
-    private List<Product> musics = new LinkedList<>();
+    private Map<Product, String> musics = new LinkedHashMap<>();
 
-    private List<Product> movies = new LinkedList<>();
+    private Map<Product, String> movies = new LinkedHashMap<>();
 
 
     public void generateData() {
@@ -58,7 +55,6 @@ public class DataGenerator {
             p.setName(book.getTitle());
             p.setImage(book.getImg());
             p.setImageAlt(book.getImageAlt());
-            p.setDbpedia(book.getDbpedia());
             try {
                 p.setAuctionEnd(df.parse(book.getAuctionEnd()));
             } catch (ParseException e) {
@@ -66,9 +62,8 @@ public class DataGenerator {
             }
             p.setProducer(book.getAuthor());
             p.setYear(new Integer(book.getYear()));
-            p.setType(ProductType.BOOK);
             DBAccess.getManager().persist(p);
-            buecher.add(p);
+            buecher.put(p, book.getDbpedia());
             }
         for(JSONDataLoader.Movie movie : JSONDataLoader.getFilms()) {
             Product p = new Product();
@@ -77,15 +72,13 @@ public class DataGenerator {
             p.setProducer(movie.getDirector());
             p.setYear(new Integer(movie.getYear()));
             p.setImageAlt(movie.getImageAlt());
-            p.setDbpedia(movie.getDbpedia());
             try {
                 p.setAuctionEnd(df.parse(movie.getAuctionEnd()));
             } catch (ParseException e) {
                 System.err.println("AuctionEnd for Product with Name " + p.getName() + " could not be parsed");
             }
-            p.setType(ProductType.FILM);
             DBAccess.getManager().persist(p);
-            movies.add(p);
+            movies.put(p, movie.getDbpedia());
         }
         for(JSONDataLoader.Music music : JSONDataLoader.getMusic()) {
             Product p = new Product();
@@ -93,8 +86,6 @@ public class DataGenerator {
             p.setImage(music.getImg());
             p.setProducer(music.getArtist());
             p.setYear(new Integer(music.getYear()));
-            p.setType(ProductType.ALBUM);
-            p.setDbpedia(music.getDbpedia());
             p.setImageAlt(music.getImageAlt());
             try {
                 p.setAuctionEnd(df.parse(music.getAuctionEnd()));
@@ -102,7 +93,7 @@ public class DataGenerator {
                 System.err.println("AuctionEnd for Product with Name " + p.getName() + " could not be parsed");
             }
             DBAccess.getManager().persist(p);
-            musics.add(p);
+            musics.put(p, music.getDbpedia());
         }
         DBAccess.getManager().getTransaction().commit();
     }
@@ -111,7 +102,7 @@ public class DataGenerator {
         // TODO load related products from dbpedia and write them to the database
         if (!DBPediaService.isAvailable())
             return;
-        for (Product b : buecher) {
+        for (Product b : buecher.keySet()) {
             String autor = b.getProducer();
             autor = autor.replaceAll(" ", "_");
             Resource allezumautor = DBPediaService.loadStatements(DBPedia.createResource(autor));
@@ -139,7 +130,7 @@ public class DataGenerator {
             DBAccess.getManager().getTransaction().commit();
         }
 
-        for (Product b : movies) {
+        for (Product b : movies.keySet()) {
             String id = b.getId();
             String director = b.getProducer();
             director = director.replaceAll(" ", "_");
@@ -167,7 +158,7 @@ public class DataGenerator {
             DBAccess.getManager().getTransaction().commit();
         }
 
-        for (Product b : musics) {
+        for (Product b : musics.keySet()) {
             String id = b.getId();
             String artist = b.getProducer();
             artist = artist.replaceAll(" ", "_");

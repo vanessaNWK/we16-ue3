@@ -5,6 +5,7 @@ import at.ac.tuwien.big.we16.ue3.exception.UserNotFoundException;
 import at.ac.tuwien.big.we16.ue3.model.Bid;
 import at.ac.tuwien.big.we16.ue3.model.Product;
 import at.ac.tuwien.big.we16.ue3.model.User;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -16,8 +17,13 @@ import java.math.BigDecimal;
 public class BidService {
 
     public void makeBid(User user, Product product, int centAmount) throws InvalidBidException, UserNotFoundException {
-        if (product.hasAuctionEnded() || !product.isValidBidAmount(centAmount) || !user.hasSufficientBalance(centAmount)) {
+        if (product.hasAuctionEnded() || !product.isValidBidAmount(centAmount)) {
             throw new InvalidBidException();
+        }
+        if(!user.getEmail().equals("computer.user@gmx.at")) {
+            if(!user.hasSufficientBalance(centAmount)) {
+                throw new InvalidBidException();
+            }
         }
 
         // possible cases:
@@ -43,8 +49,10 @@ public class BidService {
                 // TODO reimburse current highest bidder
                 //computeruser beachten
                 highestBidder = product.getHighestBid().getUser();
-                highestBidder.increaseBalance(product.getHighestBid().getAmount());
-                ServiceFactory.getNotifierService().notifyReimbursement(highestBidder);
+                if(!highestBidder.getEmail().equals("computer.user@gmx.at")) {
+                    highestBidder.increaseBalance(product.getHighestBid().getAmount());
+                    ServiceFactory.getNotifierService().notifyReimbursement(highestBidder);
+                }
             }
         }
 

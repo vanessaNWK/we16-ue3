@@ -37,7 +37,7 @@ public class Product {
     @Temporal(TemporalType.DATE)
     private Date auctionEnd;
 
-    @Enumerated(EnumType.STRING)
+    @Transient
     private ProductType type;
 
     @Column(name="year")

@@ -30,9 +30,15 @@ public class Product {
     @Column(name="imageAlt")
     private String imageAlt;
 
+    @Transient
+    private String dbpedia;
+
     @Column(name="date")
     @Temporal(TemporalType.DATE)
     private Date auctionEnd;
+
+    @Transient
+    private ProductType type;
 
     @Column(name="year")
     private int year;
@@ -125,6 +131,14 @@ public class Product {
         return auctionEnd;
     }
 
+    public ProductType getType() {
+        return type;
+    }
+
+    public void setType(ProductType type) {
+        this.type = type;
+    }
+
     public List<RelatedProduct> getRelatedProducts() {
         return relatedProducts;
     }
@@ -166,20 +180,24 @@ public class Product {
     }
 
 
-    public Product(final String name, final String image, final String imageAlt, final Date auctionEnd, final int year, final String producer, final boolean expired) {
+    public Product(final String name, final String image, final String imageAlt, final String dbpedia,final Date auctionEnd, final ProductType type, final int year, final String producer, final boolean expired) {
         this.name = name;
         this.image = image;
         this.imageAlt = imageAlt;
+        this.dbpedia = dbpedia;
         this.auctionEnd = auctionEnd;
+        this.type = type;
         this.year = year;
         this.producer = producer;
         this.expired = expired;
     }
-    public Product(final String name, final String image, final String imageAlt, final Date auctionEnd, final int year, final String producer, final boolean expired, List<RelatedProduct> related, List<Bid> bids) {
+    public Product(final String name, final String image, final String imageAlt, final String dbpedia,final Date auctionEnd, final ProductType type, final int year, final String producer, final boolean expired, List<RelatedProduct> related, List<Bid> bids) {
         this.name = name;
         this.image = image;
         this.imageAlt = imageAlt;
+        this.dbpedia = dbpedia;
         this.auctionEnd = auctionEnd;
+        this.type = type;
         this.year = year;
         this.producer = producer;
         this.expired = expired;
@@ -203,27 +221,16 @@ public class Product {
         return expired;
     }
 
+    public String getDbpedia() {
+        return dbpedia;
+    }
+
+    public void setDbpedia(final String dbpedia) {
+        this.dbpedia = dbpedia;
+    }
+
     public String getAuctionStringEnd() {
         return df.format(this.auctionEnd);
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        final Product product = (Product) o;
-
-        return id != null ? id.equals(product.id) : product.id == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
 }

@@ -27,35 +27,35 @@
                     Vorname *
                 </label>
                 <input type="text" name="firstname" id="firstname-input" class="form-input">
-                <span class="form-label" for="firstname-input" style="color:red;"><%=errorBean.getFirstnameError()%></span>
+                <span class="form-label" style="color:red;"><%=errorBean.getFirstnameError()%></span>
             </div>
             <div class="form-row">
                 <label class="form-label" for="lastname-input">
                     Nachname *
                 </label>
                 <input type="text" name="lastname" id="lastname-input" class="form-input">
-                <span class="form-label" for="lastname-input" style="color:red;"><%=errorBean.getLastnameError()%></span>
+                <span class="form-label" style="color:red;"><%=errorBean.getLastnameError()%></span>
             </div>
             <div class="form-row">
                 <label class="form-label" for="dateofbirth-input">
                     Geburtsdatum *
                 </label>
                 <input type="text" name="dateofbirth" id="dateofbirth-input" class="form-input">
-                <span class="form-label" for="dateofbirth-input" style="color:red;"><%=errorBean.getDateError()%></span>
+                <span class="form-label" style="color:red;"><%=errorBean.getDateError()%></span>
             </div>
             <div class="form-row">
                 <label class="form-label" for="email-input">
                     Email *
                 </label>
                 <input type="text" name="email" id="email-input" class="form-input">
-                <span class="form-label" for="email-input" style="color:red;"><%=errorBean.getEmailError()%></span>
+                <span class="form-label" style="color:red;"><%=errorBean.getEmailError()%></span>
             </div>
             <div class="form-row">
                 <label class="form-label" for="password-input">
                     Passwort *
                 </label>
                 <input type="password" name="password" id="password-input" class="form-input">
-                <span class="form-label" for="password-input" style="color:red;"><%=errorBean.getPasswordError()%></span>
+                <span class="form-label" style="color:red;"><%=errorBean.getPasswordError()%></span>
             </div>
         </fieldset>
 
